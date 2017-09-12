@@ -363,8 +363,8 @@ namespace Bukimedia.PrestaSharp.Factories
                 serialized += ((Serializers.PrestaSharpSerializer)request.XmlSerializer).PrestaSharpSerialize(Entity);
             }
             serialized = "<prestashop>\n" + serialized + "\n</prestashop>";
-            request.AddParameter("application/xml", serialized);
-            request.AddParameter("sendemail", 1);
+            request.AddParameter("application/xml", serialized, ParameterType.RequestBody);
+            request.AddParameter("sendemail", 1, ParameterType.QueryString);
             return request;
         }
 
