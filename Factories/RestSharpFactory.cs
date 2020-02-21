@@ -29,14 +29,14 @@ namespace Bukimedia.PrestaSharp.Factories
         protected T Execute<T>(RestRequest Request) where T : new()
         {
             var client = new RestClient();
-            client.AddHandler("text/html", new PrestaSharpTextErrorDeserializer());
+            client.AddHandler("text/html", () => new PrestaSharpTextErrorDeserializer());
             client.BaseUrl = new Uri(this.BaseUrl);
             //client.Authenticator = new HttpBasicAuthenticator(this.Account, this.Password);
             Request.AddParameter("ws_key", this.Account, ParameterType.QueryString); // used on every request
             if (Request.Method == Method.GET)
             {
                 client.ClearHandlers();
-                client.AddHandler("text/xml", new Bukimedia.PrestaSharp.Deserializers.PrestaSharpDeserializer());
+                client.AddHandler("text/xml", () => new Bukimedia.PrestaSharp.Deserializers.PrestaSharpDeserializer());
             }
             var response = client.Execute<T>(Request);
             if (response.StatusCode == HttpStatusCode.InternalServerError
